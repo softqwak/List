@@ -8,10 +8,15 @@ int main()
     add(char)(cars, "Mersedes");
     add(char)(cars, "Porshe");
 
-    printf("value: %s\n", get(char)(cars, 0));
-    printf("value: %s\n", get(char)(cars, 1));
-    printf("value: %s\n", get(char)(cars, 2));
+    // checkList(cars);
+    // printf("value: %s\n", getv(char)(cars, 0));
+    // printf("value: %s\n", getv(char)(cars, 1));
+    // printf("value: %s\n", getv(char)(cars, 2));
+
+    // checkList(cars);
+    // insert(char)(cars, "Ferrari", 1);
     checkList(cars);
+
     delList(cars);
     return 0;
 }
