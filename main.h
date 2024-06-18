@@ -3,6 +3,6 @@
 #define MAIN_H
 
 #include <stdio.h>
-#include "list.h"
+#include "listINT.h"
 
 #endif // LIST_H
