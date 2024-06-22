@@ -1,63 +1,129 @@
-#ifndef FCFCF7AE_E40A_40A4_A72E_2BF332C11B0C
-#define FCFCF7AE_E40A_40A4_A72E_2BF332C11B0C
+#ifndef _LISTINT_H_
+#define _LISTINT_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 
+enum target_e
+{
+    STORAGE,
+    SORTUP,
+    SORTDOWN
+};
+typedef enum target_e target_t;
+
+struct nodeINT_s;
 typedef struct nodeINT_s nodeINT_t;
+
+struct listINT_s;
 typedef struct listINT_s listINT_t;
-struct nodeINT_s
-{
-    int value;
-    int index;
-    nodeINT_t *prev;
-    nodeINT_t *next;
-};
-struct listINT_s
-{
-    int length;
-    nodeINT_t tail;
-    nodeINT_t head;
-};
 
-// * Functions with listINT_t type
-// инициализация списка
-listINT_t *ListInt();
+/**
+ * Initializing the list of int values.
+ * @param target enum type target: STORAGE, SORTUP, SORTDOWN
+ * @attention SORTUP & SORTDOWN - Only addINT function is available
+ * */
+listINT_t *ListINT(target_t target);
 
-// * Functions with nodeINT_t type
-// получить узел под номером pos в списке (начиная с нуля).
-nodeINT_t nodeINT(listINT_t *list, int index);
+/**
+ * Freeing up memory
+ * @param list a pointer to a list
+ */
+void freeINT(listINT_t *list);
 
-// * Functions with void type
-// вывести список как строку (nm0, nm1, n2,...).
+/**
+ * Return a poinet to a list item
+ * @param list a pointer to a list item
+ * @param index index of the list item
+ */
+nodeINT_t *nodeINT(listINT_t *list, int index);
+
+/**
+ * Output a list in the format: [item1, item2, ...]
+ * @param list a pointer to a list
+ */
 void toStringINT(listINT_t *list);
 
-// добавить узел со значением value в конец списка list.
+/**
+ * Add an element with the value value to the end of the list.
+ * @paragraph
+ * @param list a pointer to a list
+ * @param value of int type
+ * */
 void pushINT(listINT_t *list, int value);
 
-// добавить узел со значением value в начало списка list.
+/**
+ * Add a node with the value value to the top of the list.
+ * @param list a pointer to a list
+ * @param value of int type
+ */
 void unshiftINT(listINT_t *list, int value);
 
-// перевернуть последовательность узлов в списке.
+/**
+ * Flip the sequence of nodes in the list.
+ * @param list a pointer to a list
+ * */
 void reversINT(listINT_t *list);
 
-// поменять поле nm узла месте pos в списке (начиная с нуля).
-void put(listINT_t *list, int index, int value);
+/**
+ *Change the node's value field by index in the list.
+ * @param list pointer to a list
+ * @param index index of the list item
+ * @param value of int type
+ * */
+void putINT(listINT_t *list, int index, int value);
 
-// удалить узел на месте pos в списке (начиная с нуля) и вернуть его nm.
-void removeINT(listINT_t *list, int index);
-
-// добавить узел с именем nm на место pos в списке (начиная с нуля), сдвинув всё вправо.
+/**
+ * Add the node with the value value to the index place in the list by sliding everything to the right.
+ * @param list pointer to a list
+ * @param index index of the list item
+ * @param value of int type
+ */
 void insertINT(listINT_t *list, int index, int value);
 
-// * Functions with INT type
-// получить поле nm последнего узла и убрать его из списка.
+/**
+ * Add to the list, the value value. The position will set according to the purpose of the list. If target is STORAGE, will be called pushINT function
+ * @param list a pointer to a list
+ * @param value of int type
+ */
+void addINT(listINT_t *list, int value);
+
+/**
+ * Get the value field of the last node and remove it from the list.
+ * @param list a pointer to a list
+ */
 int popINT(listINT_t *list);
 
-// получить поле nm первого узла и убрать его из списка.
+/**
+ * Get the value field of the first node and remove it from the list.
+ * @param list a pointer to a list
+ */
 int shiftINT(listINT_t *list);
 
-// получить значение поля nm узла на месте pos в списке (начиная с нуля).
+/**
+ * Get the value of the node's value field at the index position in the list.
+ * @param list pointer to a list
+ * @param index index of the list item
+ */
 int getINT(listINT_t *list, int index);
 
-#endif /* FCFCF7AE_E40A_40A4_A72E_2BF332C11B0C */
+/**
+ * Delete the node in place of index in the list and return its value.
+ * @param list pointer to a list
+ * @param index index of the list item
+ */
+int removeINT(listINT_t *list, int index);
+
+/**
+ * Get length of list
+ * @param list pointer to a list
+ */
+int lenINT(listINT_t *list);
+
+/**
+ * Get value of node
+ * @param node a pointer to a node
+ */
+int valueINT(nodeINT_t *node);
+
+#endif /* _LISTINT_H_ */
