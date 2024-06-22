@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-enum target_e
+enum targetINT_e
 {
-    STORAGE,
-    SORTUP,
-    SORTDOWN
+    STORAGE_INT,
+    SORTUP_INT,
+    SORTDOWN_INT
 };
-typedef enum target_e target_t;
+typedef enum targetINT_e targetINT_t;
 
 struct nodeINT_s;
 typedef struct nodeINT_s nodeINT_t;
@@ -23,7 +23,7 @@ typedef struct listINT_s listINT_t;
  * @param target enum type target: STORAGE, SORTUP, SORTDOWN
  * @attention SORTUP & SORTDOWN - Only addINT function is available
  * */
-listINT_t *ListINT(target_t target);
+listINT_t *ListINT(targetINT_t target);
 
 /**
  * Freeing up memory

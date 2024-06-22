@@ -7,6 +7,6 @@
 #include <sys/time.h>
 
 #include "listINT.h"
-// #include "test_listINT.h"
+#include "listCHAR.h"
 
 #endif // LIST_H

@@ -4,6 +4,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+enum targetCHAR_e
+{
+  STORAGE_CHAR,
+  SORTUP_CHAR,
+  SORTDOWN_CHAR
+};
+typedef enum targetCHAR_e targetCHAR_t;
 
 struct nodeCHAR_s;
 typedef struct nodeCHAR_s nodeCHAR_t;
@@ -13,7 +22,8 @@ typedef struct listCHAR_s listCHAR_t;
 
 // * Functions with listINT_t type
 // инициализация списка
-listCHAR_t *ListChar();
+listCHAR_t *ListCHAR(targetCHAR_t target);
+listCHAR_t *initListCHAR(targetCHAR_t target);
 
 /*освобождение памяти списка*/
 void freeCHAR(listCHAR_t *list);
@@ -31,6 +41,13 @@ void pushCHAR(listCHAR_t *list, char *value);
 
 /*   добавить узел со значением value в начало списка list.*/
 void unshiftCHAR(listCHAR_t *list, char *value);
+
+/**
+ * Add element
+ * @param list
+ * @param target
+ */
+void addCHAR(listCHAR_t *list, char *value);
 
 /*   перевернуть последовательность узлов в списке.*/
 void reversCHAR(listCHAR_t *list);

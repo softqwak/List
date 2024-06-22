@@ -14,17 +14,28 @@ struct listCHAR_s
     int length;
     nodeCHAR_t *tail;
     nodeCHAR_t *head;
+    targetCHAR_t target;
+    size_t lenMax;
+    size_t lenMin;
 };
 
 static void updateListIndexes(listCHAR_t *list);
 // static void printNode(nodeCHAR_t *node);
 
-listCHAR_t *ListChar()
+listCHAR_t *ListCHAR(targetCHAR_t target)
+{
+    return initListCHAR(target);
+}
+
+listCHAR_t *initListCHAR(targetCHAR_t target)
 {
     listCHAR_t *list = malloc(sizeof(listCHAR_t));
     list->head = NULL;
     list->tail = NULL;
     list->length = 0;
+    list->target = target;
+    list->lenMax = 0;
+    list->lenMin = 0;
     return list;
 }
 
@@ -32,7 +43,7 @@ void freeCHAR(listCHAR_t *list)
 {
     nodeCHAR_t *tmp;
     nodeCHAR_t *node = list->head;
-    while(node)
+    while (node)
     {
         tmp = node;
         free(tmp);
@@ -53,12 +64,14 @@ static void updateListIndexes(listCHAR_t *list)
     while (node)
     {
         node->index = tmp_index;
-        if (!node->next){
+        if (!node->next)
+        {
             list->tail = node;
-            return;
+            tmp_index += 1;
+            break;
         }
         node = node->next;
-        tmp_index++;
+        tmp_index += 1;
     }
     list->length = tmp_index;
 }
@@ -75,7 +88,7 @@ void pushCHAR(listCHAR_t *list, char *value)
     else
         list->head = node;
     list->tail = node;
-    list->length++;
+    list->length += 1;
     return;
 }
 
@@ -91,9 +104,75 @@ void unshiftCHAR(listCHAR_t *list, char *value)
     updateListIndexes(list);
 }
 
+void addCHAR(listCHAR_t *list, char *value)
+{
+    char tmp[200];
+    size_t lenValue;
+    if (!list)
+        return;
+    switch (list->target)
+    {
+    case STORAGE_CHAR:
+        pushCHAR(list, value);
+        break;
+    case SORTUP_CHAR:
+
+        strncpy(tmp, value, 200);
+        lenValue = strlen(tmp);
+
+        if (list->length == 0)
+        {
+            // printf("first\n");
+            list->lenMax = lenValue;
+            list->lenMin = lenValue;
+            pushCHAR(list, value);
+        }
+        else if (lenValue <= list->lenMin)
+        {
+            // printf("min\n");
+            list->lenMin = lenValue;
+            unshiftCHAR(list, value);
+        }
+        else if (lenValue >= list->lenMax)
+        {
+            // printf("max\n");
+            list->lenMax = lenValue;
+            pushCHAR(list, value);
+        }
+        else
+        {
+            int indexCenterValue = lenCHAR(list) / 2;
+            char *centerValue = getCHAR(list, indexCenterValue);
+            strncpy(tmp, centerValue, 200);
+            size_t lenCenterValue = strlen(tmp);
+            strncpy(tmp, value, 200);
+            lenValue = strlen(tmp);
+            // printf("indexCenterValue = %d\n", indexCenterValue);
+            // printf("lenCenterValue = %zu\n", lenCenterValue);
+            // printf("lenValue = %zu\n", lenValue);
+
+            while (lenValue < lenCenterValue)
+            {
+                indexCenterValue += 1;
+                centerValue = getCHAR(list, indexCenterValue);
+                strncpy(tmp, centerValue, 200);
+                lenCenterValue = strlen(tmp);
+            }
+            insertCHAR(list, indexCenterValue + 1, value);
+        }
+        break;
+    case SORTDOWN_CHAR:
+        /* code */
+        break;
+    default:
+        break;
+    }
+}
+
 void reversCHAR(listCHAR_t *list)
 {
-    if (!list->head->next) return;
+    if (!list->head->next)
+        return;
     nodeCHAR_t *tmp_node_prev;
     nodeCHAR_t *tmp_list_head;
     nodeCHAR_t *node = list->tail;
@@ -102,10 +181,11 @@ void reversCHAR(listCHAR_t *list)
     while (node)
     {
         tmp_node_prev = node->prev;
-        node->prev = node->next;        
+        node->prev = node->next;
         node->next = tmp_node_prev;
-        
-        if (node == tmp_list_head) break;
+
+        if (node == tmp_list_head)
+            break;
         tmp_node_prev->next = node;
         node = node->next;
     }
@@ -165,7 +245,7 @@ char *removeCHAR(listCHAR_t *list, int index)
             char *tmp_value = node->value;
             free(node);
             node = NULL;
-            updateListIndexes(list);            
+            updateListIndexes(list);
             return tmp_value;
         }
         node = node->next;
@@ -189,14 +269,15 @@ void insertCHAR(listCHAR_t *list, int index, char *value)
                 ptrnode->prev = node;
                 list->head = node;
             }
-            else if (ptrnode->prev && ptrnode) {
+            else if (ptrnode->prev && ptrnode)
+            {
                 node->prev = ptrnode->prev;
                 node->next = ptrnode;
                 ptrnode->prev->next = node;
                 ptrnode->prev = node;
             }
             node->value = value;
-            list->length++;
+            list->length += 1;
             updateListIndexes(list);
             return;
         }
@@ -241,7 +322,6 @@ nodeCHAR_t *nodeCHAR(listCHAR_t *list, int index)
     return NULL;
 }
 
-
 // static void printNode(nodeCHAR_t *node)
 // {
 //     printf("prev:[%p]", (void *)node->prev);
@@ -252,7 +332,8 @@ nodeCHAR_t *nodeCHAR(listCHAR_t *list, int index)
 void toStringCHAR(listCHAR_t *list)
 {
     nodeCHAR_t *node = list->head;
-    if (!node) return;
+    if (!node)
+        return;
     printf("[");
     printf("\"%s\"", node->value);
     node = node->next;

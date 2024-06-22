@@ -2,7 +2,7 @@
 /**
  * Режим STORAGE работает стабильно быстрее SORTUP и SORTDOWN на 8-11 е.и.
  * Режим SORTDOWN работает стабильно медленнее SORTUP на 2-3 е.и.
- * 
+ *
  * STORAGE / SORTUP : 2 / 10; 5 / 14
  */
 
@@ -22,21 +22,21 @@ struct listINT_s
     int length;
     nodeINT_t *tail;
     nodeINT_t *head;
-    target_t target;
+    targetINT_t target;
     int minValue;
     int maxValue;
 };
 
 static void updateListIndexes(listINT_t *list);
-static listINT_t *initINT(target_t target);
+static listINT_t *initINT(targetINT_t target);
 // static void printNode(nodeINT_t *node);
 
-listINT_t *ListINT(target_t target)
+listINT_t *ListINT(targetINT_t target)
 {
     return initINT(target);
 }
 
-static listINT_t *initINT(target_t target)
+static listINT_t *initINT(targetINT_t target)
 {
     listINT_t *list = malloc(sizeof(listINT_t));
     list->head = NULL;
@@ -46,9 +46,9 @@ static listINT_t *initINT(target_t target)
     /* Возможно в будущем будет разнаая инициализация */
     switch (list->target)
     {
-    case STORAGE:
-    case SORTUP:
-    case SORTDOWN:
+    case STORAGE_INT:
+    case SORTUP_INT:
+    case SORTDOWN_INT:
         list->minValue = __INT32_MAX__;
         list->maxValue = -__INT32_MAX__;
         break;
@@ -252,10 +252,10 @@ void addINT(listINT_t *list, int value)
 {
     switch (list->target)
     {
-    case STORAGE:
+    case STORAGE_INT:
         pushINT(list, value);
         break;
-    case SORTUP:
+    case SORTUP_INT:
         if (list->length == 0)
         {
             list->maxValue = value;
@@ -305,7 +305,7 @@ void addINT(listINT_t *list, int value)
                 insertINT(list, indexActualNode, value);
         }
         break;
-    case SORTDOWN:
+    case SORTDOWN_INT:
         if (list->length == 0)
         {
             list->maxValue = value;
