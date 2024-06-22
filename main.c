@@ -5,8 +5,6 @@
 
 int main()
 {
-    // test_lintINT();
-
     listINT_t *persons = ListINT(STORAGE);
     pushINT(persons, 10);
     pushINT(persons, 20);
