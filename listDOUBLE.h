@@ -6,14 +6,14 @@
 #include <stdlib.h>
 
 struct nodeDOUBLE_s;
-typedef struct nodeDOUBLE_s nodeDOUBLE_t; 
+typedef struct nodeDOUBLE_s nodeDOUBLE_t;
 
 struct listDOUBLE_s;
 typedef struct listDOUBLE_s listDOUBLE_t;
 
 // * Functions with listINT_t type
 // инициализация списка
-listDOUBLE_t *ListDouble(); 
+listDOUBLE_t *ListDouble();
 
 /*освобождение памяти списка*/
 void freeDOUBLE(listDOUBLE_t *list);
@@ -41,7 +41,6 @@ void putDOUBLE(listDOUBLE_t *list, int index, double value);
 /*   Добавить узел value на место index в списке (начиная с нуля), сдвинув всё вправо.*/
 void insertDOUBLE(listDOUBLE_t *list, int index, double value);
 
-
 // * Functions with double type
 /*   получить поле value последнего узла и убрать его из списка.*/
 double popDOUBLE(listDOUBLE_t *list);
@@ -54,7 +53,6 @@ double getDOUBLE(listDOUBLE_t *list, int index);
 
 /*   удалить узел на месте index в списке list (начиная с нуля) и вернуть его value.*/
 double removeDOUBLE(listDOUBLE_t *list, int index);
-
 
 // * Functions with int type
 /*   Получить размер списка */
